@@ -15,7 +15,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.api.GoogleApi;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -27,7 +26,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.example.tugasmap.databinding.ActivityMapsBinding;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.location.LocationListener;
 
@@ -53,6 +51,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private TextView mLatitudeTextView;
     private TextView mLongitudeTextView;
     private TextView mLastUpdateTimeTextView;
+    private TextView mStatus;
 
     // Labels
     protected String mLatitudeLabel = "Lat: ";
@@ -71,6 +70,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mLatitudeTextView = findViewById(R.id.latitude_text);
         mLongitudeTextView = findViewById(R.id.longitude_text);
         mLastUpdateTimeTextView = findViewById(R.id.last_update_time_text);
+        mStatus = findViewById(R.id.status);
 
 //        binding = ActivityMapsBinding.inflate(getLayoutInflater());
 //        setContentView(binding.getRoot());
@@ -184,13 +184,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private void updateUI(@NonNull Location location) {
-        LatLng myLoc =new LatLng(location.getLatitude(), location.getLongitude());
+        if(location == null) {
+            Toast.makeText(this, "Cannot get location at the moment", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            LatLng myLoc =new LatLng(location.getLatitude(), location.getLongitude());
 
-        mMap.clear();
-        mMap.addMarker(new MarkerOptions().position(myLoc).title("Your Location"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myLoc, 15));
-        setButtonsEnabledState();
-        updateLocationUI(location);
+            mMap.clear();
+            mMap.addMarker(new MarkerOptions().position(myLoc).title("Your Location"));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myLoc, 15));
+            setButtonsEnabledState();
+            updateLocationUI(location);
+        }
     }
 
     private void updateLocationUI(Location location) {
@@ -203,9 +208,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (mRequestingLocationUpdates) {
             mStartUpdatesButton.setEnabled(false);
             mStopUpdatesButton.setEnabled(true);
+            mStatus.setText("Tracking");
+
         } else {
             mStartUpdatesButton.setEnabled(true);
             mStopUpdatesButton.setEnabled(false);
+            mStatus.setText("NOT Tracking");
         }
     }
 

@@ -3,4 +3,5 @@
     <string name="title_activity_maps">MapsActivity</string>
     <string name="start_update">Start Update</string>
     <string name="stop_update">Stop Update</string>
+    <string name="status">NOT Tracking</string>
 </resources>
