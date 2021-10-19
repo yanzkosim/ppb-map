@@ -32,7 +32,9 @@ import com.google.android.gms.location.LocationListener;
 import java.text.DateFormat;
 import java.util.Date;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
+//        , LocationListener
+{
 
     private static final long UPDATE_INTERVAL_IN_MILLISECONDS = 10000;
     private static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS = UPDATE_INTERVAL_IN_MILLISECONDS / 2;
@@ -217,8 +219,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    @Override
-    public void onLocationChanged(@NonNull Location location) {
-        updateUI(location);
-    }
+//    @Override
+//    public void onLocationChanged(@NonNull Location location) {
+//        updateUI(location);
+//    }
 }
